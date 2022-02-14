@@ -15,11 +15,19 @@ class GamesController < ApplicationController
 
     uri = URI("https://wagon-dictionary.herokuapp.com/#{word}")
     html_result = Net::HTTP.get_response(uri)
-    found = JSON.parse(html_result.body)['found']
+    @found = JSON.parse(html_result.body)['found']
+    @score = 0
 
     if included
-      if found
+      if @found
         @results = "Congratulations! #{word} is a valid English word!"
+        @score = 10 * word.length
+        if session[:total_score].present?
+          session[:total_score] += @score
+        else
+          session[:total_score] = @score
+        end
+        @total_score = session[:total_score]
       else
         @results = "Sorry but #{word} does not seem to be a valid English word."
       end

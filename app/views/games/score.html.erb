@@ -1,3 +1,6 @@
 <h1>Result</h1>
 <p><%= @results %></p>
+<% if @found %>
+  <p>Your score is <%= @score %>, Total score is <%= @total_score %></p>
+<% end %>
 <%= link_to "Play Again", new_path %>
